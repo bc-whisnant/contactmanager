@@ -24,19 +24,31 @@ import Contact from './Contact';
             }
         ]
     }
+
+    deleteContact = (id) => {
+        const { contacts } = this.state;
+        // you have to filter the data now
+        const newContacts = contacts.filter(contact => contact.id !== id);
+        // this is a copy of the state without the one we deleted
+        this.setState({
+            contacts: newContacts
+        })
+    }
   render() {
     const { contacts } = this.state;
     return (
-      <div>
+      <React.Fragment>
         {contacts.map(contact => (
             <Contact 
                 key={contact.id}
                 // you could pass in contact.name, contact.phone, etc
                 // but you don't have to - you can do it this way
                 contact={contact} 
+                // you have to add this from contact.js so that component has access to the state
+                deleteClickHandler={this.deleteContact.bind(this, contact.id)}
             />
         ))}
-      </div>
+      </React.Fragment>
     );
   }
 }
